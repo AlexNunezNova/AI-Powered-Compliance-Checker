@@ -1,0 +1,52 @@
+# import streamlit as st
+# from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+# import os
+
+# CHAT_DOC_DIR = "data/chat_documents"
+# os.makedirs(CHAT_DOC_DIR, exist_ok=True)
+
+# def initialize_chat_index(file_content, file_name):
+#     #st.write(f"Uploading your company file ...")
+#     #Saving the uploaded file to the new chat documents directory
+#     uploaded_file_path = os.path.join(CHAT_DOC_DIR, file_name)
+#     with open(uploaded_file_path, "wb") as f:
+#         f.write(file_content)
+
+#     # Loading the document for chat purpose
+#     documents = SimpleDirectoryReader(CHAT_DOC_DIR).load_data()
+#     chat_index = VectorStoreIndex.from_documents(documents)
+#     st.write("You can ask questions based on your company privacy document go ahead....")
+#     return chat_index
+
+# def chat_page():
+#     st.header("Chat with Document 💬")
+
+#     if "chat_index" not in st.session_state:
+#         st.session_state.chat_index = None
+
+#     if "chat_response" not in st.session_state:
+#         st.session_state.chat_response = ""
+
+#     # File uploader for new document
+#     uploaded_file = st.file_uploader("Upload your company privacy document", type=["txt", "pdf", "docx"], key="chat_uploader")
+
+#     if uploaded_file is not None:
+#         file_content = uploaded_file.read()
+#         file_name = uploaded_file.name
+
+#         # Initialize a new index for the uploaded document
+#         st.session_state.chat_index = initialize_chat_index(file_content, file_name)
+
+#     if st.session_state.chat_index is not None:
+#         # Create a query engine
+#         query_engine = st.session_state.chat_index.as_query_engine()
+
+#         # Text input for the user's question
+#         question = st.text_input("Ask a question about the document:")
+
+#         if question:
+#             # Get the response from the query engine
+#             st.session_state.chat_response = query_engine.query(question)
+
+#     if st.session_state.chat_response:
+#         st.write(f"Response: \n {st.session_state.chat_response}")
